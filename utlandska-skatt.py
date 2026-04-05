@@ -6,10 +6,6 @@ from selenium.webdriver.support.ui import Select
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-## Configuration ChangeMe ##
-YEAR = '2024'
-############################
-
 
 # Create a new ChromeOptions object to configure the Chrome browser
 chrome_options = webdriver.ChromeOptions()
@@ -21,6 +17,9 @@ chrome_options.add_argument('--disable-dev-shm-usage')
 chrome_options.add_argument('--disable-gpu')   # Disable GPU acceleration
 # Enable remote debugging
 chrome_options.add_argument('--remote-debugging-port=9222')
+
+# Detach the Chrome session to leave it
+chrome_options.add_experimental_option("detach", True)
 
 # Create a new instance of Chrome browser using the ChromeOptions object
 driver = webdriver.Chrome(options=chrome_options)
@@ -80,13 +79,13 @@ def add_entry(row_data):
     find_element_by_id('btn-form-submit').click()
 
 
-# Select year
-select_value_in_dropdown('year', YEAR)
-
 with open('tax_data.csv', newline='') as csvfile:
     reader = csv.reader(csvfile, delimiter=',', quotechar='"')
+    year = next(reader)[0]
+    # Select year
+    select_value_in_dropdown('year', year)
+    # Iterate over remaining rows
     for row in reader:
         add_entry(row)
 
-# This is arbitrary wait, no element called yolo
-WebDriverWait(driver, 1000).until(EC.presence_of_element_located((By.ID, 'yolo')))
+driver.execute_script("alert('Tax data inserted!')")

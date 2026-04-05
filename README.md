@@ -2,7 +2,13 @@ Automation script to fill in tax data on Skatteverket
 ===
 
 ## Data format
-The tax_data is expected in the following format:
+The tax_data is expected in the following format.
+
+First line:
+
+    Year
+
+Remaining lines:
 
     Dividend/Interest,Country,Month,Day,Currency,Amount,TP,TP_Currency,TP_Amount
 
