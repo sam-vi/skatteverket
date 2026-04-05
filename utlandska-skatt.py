@@ -88,4 +88,4 @@ with open('tax_data.csv', newline='') as csvfile:
     for row in reader:
         add_entry(row)
 
-driver.execute_script("alert('Tax data inserted!')")
+driver.execute_script(f"alert('Tax data inserted for year {year}!')")
